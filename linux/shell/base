@@ -291,5 +291,3 @@
     umount  卸载
         e.g.: umount  /dev/cdrom
               umount  /mnt/cdrom 		// 强调：退出挂载目录，才能卸载
-
-    df

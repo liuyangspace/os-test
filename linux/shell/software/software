@@ -1,0 +1,31 @@
+
+software 软件包管理
+
+Redhat系列 : rpm/yum,
+Debian系列 : apt-get/dpkg
+
+1, 软件包分类：
+    1.1, 二进制（rpm）包
+        特点：安装速度快		简易
+        缺点：自定义性差		依赖性
+        参考命令：
+            rpm
+            yum
+    1.2, 源码包
+        由软件开发源码组成，安装时需要编译工具如gcc、gcc-c++等
+        优点：特点、开源	、定制
+        缺点：安装时间长，一旦报错，不易解决
+        参考步骤:
+            1) 解压 : tar	-xf	包文件
+            2) cd  解压目录     // 进入解压文件目录
+            3) 查看安装文档:  INSTALL     README
+            4) 检测 : ./configure  --prefix=/usr/local/apache2
+               功能: 1	检测系统环境，生成Makefile
+                     2	定义软件选项
+                     --prefix	指定软件安装目录
+            5) 编译 : make    // 若编译失败使用make  clean清除编译文件
+            6) 安装 ; make  install
+            报错判断：
+                第一：安装过程是否停止
+                第二：停止处是否出现 error  warning  no  等错误报警
+

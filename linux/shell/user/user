@@ -1,0 +1,109 @@
+
+user
+
+1, 配置:
+    用户信息文件：/etc/passwd	（重要）
+    用户密码文件：/etc/shadow
+    用户组信息文件：/etc/group
+    1.1, 配置文件格式
+        passwd e.g.: root:x:0:0:root:/root:/bin/bash
+            // 用户名:密码:UID:GID:描述:宿主目录（家）:命令解析器
+            第一部分：用户名
+            第二部分：x 密码位
+            第三部分：uid	0 超级管理员
+            第四部分：gid	groupid
+            第五部分：描述
+            第六部分：家目录/宿主目录
+            第七部分：shell解释器
+        shadow e.g.: root:$6$/GtWl4FRRKOdrsll$r1ccjdtOeAoKEqg8p/Fat35Fsgjjjg6uJcTxV/D60fvyl194.QUbby3Md3OfoH.oMpmv1ZKT7RWJCsIt8kWdE.:16676:1:30:7:7::
+            // 用户名:密码:修改时间:最小密码修改时间间隔:密码失效天数:密码修改警告时间:补救时间:密码失效时间:保留字段
+            第一部分：用户名
+            第二部分：密码
+                $ 分割为三部分
+                    1、加密方式		6 SHA-512	5 SHA-256   1 md5
+                    2、盐值（salt）
+                    3、密文
+            第三部分:最后密码修改时间	单位天,相对UNIX时间元年	19700101
+            第四部分：最小密码修改时间间隔	单位天,1天改一次
+            第五部分：密码失效天数	单位天,99999 = 273年	近乎无限
+            第六部分：密码修改警告时间	单位天
+            第七部分：补救时间	单位天
+            第八部分：密码失效时间 单位天,相对UNIX时间元年	19700101
+            第九部分：缺省
+        group e.g.: root:x:0:
+            // 组名:口令:组标识号:组内用户列表
+            组名：组名是用户组的名称，由字母或数字构成。组名不应重复。
+            口令：口令字段存放的是用户组加密后的口令字。
+            组标识号：组标识号与用户标识号类似，也是一个整数，被系统内部用来标识组。别称GID.
+            组内用户列表：是属于这个组的所有用户的列表，不同用户之间用逗号(,)分隔。
+
+3, 用户类型
+    超级用户（root，UID=0）
+    普通用户（UID 500-60000）
+    伪用户（UID 1-499）:
+        1、伪用户因系统应用和程序服务而存在.如：bin、shutdown、reboot等，与Linux系统程序相关。
+        2、伪用户通常不需要或无法登陆	onLogin
+        3、大多没有宿主目录，个别存在。
+
+4, 用户操作
+    操作          用户            用户组
+    添加          useradd         groupadd
+    修改          usermod         groupmod
+    删除          userdel         groupdel
+    密码          passwd          gpasswd
+    查看用户信息  id
+    切换用户      su
+
+5, command:
+    useradd     添加用户
+        语法 : useradd 选项 用户名
+                    -g		缺省组（不写则默认为用户名组）
+                    -G		所属组（添加到多个用户组，逗号隔开）
+                    -c      描述信息
+                    -d		指定家目录
+        e.g.:   useradd -g aa bb		添加用户bb同时指定初始组aa
+                useradd -G user1 aa  	添加用户aa指定附加组user1
+
+    passwd      密码
+        语法 : passwd [用户名]
+                    -l		锁定
+                    -u		解锁
+
+    userdel     删除用户
+        语法 : userdel -r 用户名
+                    -r      删除用户相关文件，建议使用
+
+    usermod     修改用户信息
+        语法 : usermod [options] LOGIN
+                    -l      改名
+                    -c      改备注
+                    -e      过期时间
+                    -L      锁定用户
+                    -U      解锁
+                    -aG     追加所属组
+        e.g.: usermod -g webadmin jack
+              usermod -G group1,group2 jack
+
+    groupadd    添加组
+        语法 : groupadd 组名
+
+    groupmod 选项 组名
+        语法 : groupmod 选项 组名
+                    -n      修改组名
+        e.g.: groupmod -n newname oldname
+
+    groupdel    删除组
+
+    gpasswd
+        语法 : gpasswd	-a	用户名 组名
+                    -a      添加用户到组
+                    -d      删除用户从组
+
+    su      切换用户
+        语法 : su [-] 用户名
+                    -       携带用户的环境变量,不带"-"切换root，家目录也为之前的用户所在目录
+
+    id      查看用户信息,显示用户UID，GID及相关组信息
+        语法 : id	用户名
+
+

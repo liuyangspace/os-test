@@ -1,0 +1,71 @@
+
+shell
+
+1, Linux的shell分类
+	/etc/shells	记录该Linux安装了哪些shell。
+	B类		sh	bash
+	C类		tcsh
+	#大部分linux缺省为 bash  (Bourne-again Shell)
+
+2, bash 命令补全
+    使用Tab键
+    命令补全、文件名补全
+    如果不是唯一的，按两下Tab，全列出来
+
+3, 快捷操作
+   	CTRL+C      终止命令
+   	CTRL+A      光标到行首
+   	CTRL+E      光标到行尾
+   	CTRL+U      剪切光标前内容
+   	CTRL+K      剪切光标后内容
+   	CTRL+Y      粘贴剪切的内容
+   	CTRL+L      清理屏幕
+   	CTRL+D      注销登陆相当于exit和logout或者保存
+   	CTRL+Z      将进程在后台挂起
+   	Ctrl + Q    可以接触 ctrl + S 的文件保存锁定
+
+4, 命令历史
+	history		列出所有的命令（默认最多保存条数1000）
+	!序号		执行历史中第几个命令
+	!命令		执行最近的这条命令
+	按向上(或向下)箭头，翻出历史记录
+
+5, 命令别名
+    alias                   // 显示当前可用别名命令
+    alias copy=cp           // 添加一个别名（临时）
+    alias drm="rm -rf"      // 如果有参数
+    unalias copy            // 删除别名
+    # 别名永久生效: 用户宿主目录 ~/.bashrc 中添加别名信息如：alias vi=vim
+                    重启生效或者source  ~/.bashrc及时生效
+
+6, 输入输出重定向
+    6.1, Shell对于每个进程预先定义了3个文件描述字
+        0 标准输入  STDIN	键盘
+        1 标准输出  STDOUT	显示器
+        2 标准错误输出 STDERR
+        重定向，就是改变这个标准设备，不用键盘输入，不用显示器输出
+    6.2, 输出重定向
+        >   覆盖输出
+        >>  追加输出
+        e.g.: ls -l /tmp>files.txt
+    6.3, 输入重定向
+        <
+        e.g.: wall < /test/msg
+    6.4, 错误输出重定向
+        2>   或  2>>		#描述字和符号间不许有空格
+        e.g.: cp -R /usr /backup/use 2>>/bak.error
+
+7, 管道连接符 |
+    use: 命令1|命令2|命令3...
+    e.g.: ls -l /etc | more // 文件太多，一次看不完，用more来查看
+
+8, 命令连接符
+    ;   不管执行是否成功，多个命令依次执行, e.g.:   pwd ; ls ; date
+    &&	前面执行成功，才执行后面的命令, e.g.: ls && pwd  // 第一个成功后，将执行pwd命令
+    ||	前面执行失败，才执行后面的命令, e.g : write mary < /home/jack/love.txt || mail mary< /home/jack/love.txt  情书发失败，则发邮件
+    ``	命令替换符,将一个命令的输出作为另一个命令的参数,命令1 `命令2`，命令1的参数，是命令2的执行结果,
+            e.g.: ls -l `which touch`     找到touch命令的路径，然后用ls查看属性
+
+9. 用户
+    id  查看用户信息
+    su  切换用户
