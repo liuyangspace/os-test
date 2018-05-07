@@ -1,0 +1,9 @@
+
+
+
+
+
+
+
+#source /etc/profile		//加载path
+#export						//显示环境变量

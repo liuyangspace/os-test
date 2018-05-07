@@ -1,0 +1,34 @@
+
+Linux Info
+home: https://www.kernel.org/doc/html/latest/
+github: https://github.com/torvalds/linux
+
+
+1, UNIX发展史
+    1.1, 1965年，美国麻省理工学院（MIT）、通用电气公司（GE）及AT&T的贝尔实验室联合开发Multics工程计划，其目标是开发一
+        种交互式的具有多道程序处理能力的分时操作系统，但因Multics追求的目标过于庞大复杂，项目进度远远落后于计划，最后贝尔实验室宣布退出。
+    1.2, 1969年，美国贝尔实验室的肯.汤普森在DEC PDP-7机器上开发出了UNIX系统和B语言。
+    1.3, 1971年，肯.汤普森的同事丹尼斯.里奇写出正式版UNIX；1973年，UNIX系统的第三版用C语言重写，这为提高UNIX系统的可移植性打下基础。
+
+2, 常见Unix
+    操作系统        公司            硬件平台
+    AIX			    IBM             PowerPC
+    HP-UX		    HP              PA-RISC
+    solaris		    SUN             SPARC
+    Linux,BSD     Red Hat Linux,Ubuntu,FreeBSD      IA（Intel、AMD、Cyrix、RISE...）
+
+3, Linux发展史
+    1	minix
+        由Andrew S. Tanenbaum（谭宁邦）发明。MINIX最初发布于1987年，开放全部源代码给大学教学和研究工作。2000年重新改为BSD授权，成为自由和开放源码软件。
+    2	linux
+        Linus Torvalds（李纳斯.托瓦兹），他在芬兰的赫尔辛基大学用Minix操作平台建立了一个新的操作系统的内核，他把它叫做Linux。
+
+4, 常见的Linux
+    1、fedora、RHEL(Red Hat Enterprise Linux)、CentOS、SUSE、gentoo、红旗、Mandriva、	turbolinux
+        CentOS  6.3		2.6.18		www.kernel.org		3.1.14
+    2、Debian、Ubuntu
+
+5, Linux特点
+    特点： 开源	  免费  稳定  安全
+    缺点： 易用性差    厂商支持性差
+

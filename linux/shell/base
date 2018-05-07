@@ -1,0 +1,295 @@
+
+
+
+
+1, 目录命令
+    ls  显示目录下内容
+        命令英文原意：list
+        命令所在路径：/bin/ls
+        e.g. :
+            ls		直接回车，显示当前目录下内容
+            ls  -l  长格式显示(缩略选项用一个减号，完整选项用两个减号)
+                -rw-------    1   root    root    1190    08-10 23:37     anaconda-ks.cfg
+                第一项：    权限位，第一位为文件类型，常见文件类型
+                                - 	普通文件
+                                l	链接文件
+                                d	目录文件
+                第二项：    1，引用计数
+                第三项：    root，所有者
+                第四项：    root，属组
+                第五项：    大小
+                第六项	    最后一次修改时间
+                第七项	    文件名，文件颜色及类型
+                                1）默认色代表普通文件。  例：install.log
+                                2）绿色代表可执行文件。  例：rc.news
+                                3）红色代表tar包 文件。 例：vim-7.1.tar.bz2
+                                4）蓝色代表目录文件。  例：aa
+                                5）洋红代表图象文件。  例：Sunset.jpg
+                                6）青色代表链接文件。  例：rc4.d     （此类文件相当于快捷方式）
+                                7）黄色代表设备文件。  例：fd0
+                                8）背景红色代表损坏的链接文件。例：rc4.d
+                                更多的文件颜色规则详见：/etc/DIR_COLOR
+            ls  -a   	显示所有文件（包含隐藏文件）
+            ls  -al		多个参数可合并简写（大多可无序组合）
+            ls  -h		文件大小显示为常见大小单位	B	KB	MB
+            ls  -d		显示目录本身，而不是里面的子文件
+
+    cd  切换所在目录
+        命令英文原意：change directory
+        命令所在路径：shell内置命令
+        e.g.:
+            cd  /usr/local/src
+            cd  ~		进入当前用户的家目录		/root		/home/aa/
+            cd			进入当前用户的家目录
+            cd  -		进入上次目录
+            cd  ..		进入上一级目录
+            cd  .		进入当前目录
+
+    pwd 显示当前所在目录
+        命令英文原意：print working directory
+        命令所在路径：/bin/pwd
+
+    mkdir   目录名
+        命令名称：mkdir
+        命令英文原意：make directories
+        命令所在路径：/bin/mkdir
+        e.g.:
+            mkdir  -p  11/22/33/44		-p	递归
+
+    rmdir   目录 只能删除空目录
+        命令名称：rmdir
+        命令英文原意：remove empty directories
+        命令所在路径：/bin/rmdir
+        e.g.:
+            rm  文件名		删除文件
+            rm  -rf	目录		删除文件和目录
+                -r  			递归，删除目录
+                -f			强制，取消询问模式
+
+2，文件处理命令
+    touch   创建空文件
+        命令所在路径：/bin/touch
+        语法：touch  [文件名]
+        e.g.: $ touch newfile
+
+    cp  复制文件或目录
+        命令英文原意：copy
+        命令所在路径：/bin/cp
+        语法：cp  -rp  [原文件或目录] [目标目录]
+                  -r  复制目录
+        		  -p 保留文件属性
+        e.g.:  $ cp  file1 file2  dir1  //将文件file1、file2复制到目录dir1
+               $ cp  -r dir1 dir2       //将dir1下的所有文件及子目录复制到dir2
+
+    mv  剪切文件、改名
+        命令英文原意：move
+        命令所在路径：/bin/mv
+        语法：mv  [原文件或目录]  [目标目录]
+        e.g.: $ mv  file1 file3             //将当前目录下文件file1改名为file3
+              $ mv  file2  /tmp/testfile    //将文件file2移动到目录/tmp下同时改名为 testfeile
+
+    rm  删除文件
+        命令英文原意：remove
+        命令所在路径：/bin/rm
+        语法：rm  -rf   [文件或目录]
+                   -r  删除目录
+                   -f  强制执行
+        e.g.: $ rm file3                //删除文件file3
+              $ rm -rf dir1          //删除目录dir1
+
+    cat 显示文件内容
+        命令所在路径：/bin/cat
+        语法：cat [文件名]
+        e.g.: $ cat  /etc/issue
+              $ cat  /etc/services
+
+    head  文件名 	显示文件头
+        命令名称：head
+        命令所在路径：/usr/bin/head
+        e.g.:   head  -n  行数   文件名		指定显示文件头几行
+                head  -n  20  文件名
+                head  -20  文件名
+
+    tail -n 行数 文件名		指定显示文件尾行
+
+    more 分页显示文件内容
+        命令所在路径：/bin/more
+        语法：more  [文件名]
+             (空格) 或f       翻页
+             (Enter)             换行
+              q或Q              退出
+        e.g.: $ more  /etc/services
+
+    ln  生成链接文件
+        命令英文原意：link
+        命令所在路径：/bin/ln
+        语法：ln  -s  [原文件]  [目标文件]
+                  -s  创建软链接
+        e.g.: $ ln -s  /etc/issue  /issue.soft      //创建文件/etc/issue的软链接/issue.soft
+              $ ln   /etc/issue  /issue.hard        //创建文件/etc/issue的硬链接/issue.hard
+
+    find    在系统当中搜索符合条件的文件名
+        命令所在路径：/usr/bin/find
+        语法：find  [搜索范围]  [匹配条件]
+            -name  文件名
+            -user  用户名		按照属主用户名查找文件
+            -group  组名		按照属组组名查找文件
+            -size		        +50k：大于50k，-50k：小于50k，50k：等于50k		k	M
+            -type 类型 		    按照文件类型查找		f：普通		d：目录		l：链接
+            -iname			    按照文件名查找，不区分大小写
+            -inum			    按照i节点查找
+        通配符 (常用于文件查找) :
+            *		任意字符任意多个
+            ?		任意字符一个
+            [] 	指范围值
+            ^		反向匹配
+        逻辑连接符 :	-a（and）	-o（or）//多条件查找，条件之间可加逻辑连接符
+        对查找到的文件，进一步处理:
+            find  ...  -exec 命令 {}  \;
+                {}表示find查询的结果集
+                \是转义符  表示一个命令或符号使用其本身的意义，不使用别名
+                ;分号是表示语句的结束
+                是固定格式，只能这样写。注意中间的空格。
+        e.g.: $ find  /etc  -name  init     //在目录/etc中查找文件init
+              $ find  /  -size  +204800     //在根目录下查找大于100MB的文件
+              $ find  /home  -user  samlee  //在根目录下查找所有者为samlee的文件
+              $ find  /etc  -cmin  -5       //在/etc下查找5分钟内被修改过属性的文件和目录
+              $ find  /etc -size  +163840 -a -size  -204800     //在/etc下查找大于80MB小于100MB的文件
+              $ find /etc -name inittab -exec ls -l {} \;   //在/etc下查找inittab文件并显示其详细信息
+
+    grep    在文件中搜寻字串匹配的行并输出
+        命令所在路径：/bin/grep
+        语法：grep  -iv [指定字串] [文件]
+                    -i  不区分大小写
+                    -v 排除指定字串
+        正则表达式 (常用于内容查找) :
+                    . 	除换行外任意符号
+                    *		任意个
+                    ? 	0或1个
+                    ^		开头
+        e.g.: # grep  “mysql”  /root/install.log
+
+    tar     打包目录
+        命令所在路径：/bin/tar
+        语法：tar  选项[-zcf] [压缩后文件名] [目录]
+                         -c     打包
+                         -x     解包
+                         -v     显示详细信息
+                         -f     指定文件名
+                         -z     压缩.gz格式
+                         -j     压缩.bz2格式
+        e.g.: $ tar  -cf   dir1.tar dir1        //将目录dir1打包为.tar文件
+              $ tar  -zcf   dir1.tar.gz  dir1   //将目录dir1打包并压缩为.tar.gz文件
+              tar  -ztvf  aa.tar.gz		        //查看不解包
+
+3，权限管理命令
+    chmod   改变文件或目录权限
+        命令英文原意：change the permissions mode of a file
+        命令所在路径：/bin/chmod
+        语法：chmod  [{ugoa}{+-=}{rwx}] [文件或目录]
+                     [mode=421 ]  [文件或目录]
+                     -R  递归修改
+        字符示意：
+            字符  权限    对文件的含义      对目录的含义
+            r     读      查看文件内容      列出目录中的内容
+            w     写      修改文件内容      目录中创建、删除文件
+            x     执行    执行文件          进入目录
+        e.g.: $ chmod  g+w  file1       //赋予文件file1所属组写权限
+              $ chmod  -R 777  dir1     //修改目录dir1及其目录下文件为所有用户具有，全部权限
+
+    chown   改变文件或目录的所有者
+        命令英文原意：change file ownership
+        命令所在路径：/bin/chown
+        语法：chown  [用户][:用户组] [文件或目录]
+        e.g.:  $ chown  nobody  file1   //改变文件file1的所有者为nobody
+
+    chgrp   改变文件或目录的所属组
+        命令英文原意：change file group ownership
+        命令所在路径：/bin/chgrp
+        语法：chgrp  [用户组]  [文件或目录]
+        e.g.:  $ chgrp adm file1        //改变文件file1的所属组为adm
+
+    umask   显示、设置文件的缺省权限
+        命令英文原意：the user file-creation mask
+        命令所在路径：Shell内置命令
+        语法：umask [-S]
+        	        -S	以rwx形式显示新建文件缺省权限
+        e.g.: $umask -S
+
+4, 命令帮助
+    which   显示系统命令所在目录
+        命令所在路径：/usr/bin/which
+        语法：which  [命令名称]
+        e.g.:  $ which ls
+
+    man     获得帮助信息
+        命令英文原意：manual
+        命令所在路径：/usr/bin/man
+        语法：man  [命令或配置文件]
+        e.g.: $ man ls          //查看ls命令的帮助信息
+              $ man services    //查看配置文件services的帮助信息
+
+    help    获得Shell内置命令的帮助信息
+        命名所在路径：Shell内置命令
+        语法：help命令
+        e.g.:  $ help umask     //查看umask命令的帮助信息
+
+    whereis  命令名		查找命令的命令，同时看到帮助文档位置
+        命令所在路径：/usr/bin/whereis
+        which	相同，可看到命令别名
+
+5, 网络通信命令
+    ping    测试网络连通性
+        命令所在路径：/bin/ping
+        语法：ping    选项  IP地址
+                      -c  指定发送次数
+                      -s  指定数据包大小
+        e.g.:  #  ping 192.168.17.25
+
+    ifconfig    网络通信命令
+        命令英文原意：interface configure
+        命令所在路径：/sbin/ifconfig
+        语法：ifconfig  网卡名称  IP地址
+        e.g.: # ifconfig  eth0 192.168.8.250
+
+    netstat     查看网络状态的命令	常用选项组合 –ptlun
+        -t	查看tcp端口
+        -u	查看udp端口
+        -l	监听
+        -n	以IP和端口号显示，不用域名和服务名显示
+        -a	查询所有连接
+        -p	查看进程名
+
+    write和wall(write all)		广播命令
+        write	user	回车
+        >发送内容
+        >ctrl+d	保存发送
+        wall	回车
+        >发送内容
+        >ctrl+d	保存发送
+        所有用户都能收到信息
+
+6, 系统操作
+    shutdown    关机
+        命令所在路径：/sbin/shutdown
+        语法：shutdown
+                -h	关机
+                -r	重启
+        e.g.: # shutdown -h now
+
+    reboot  重启系统
+        命令所在路径：/sbin/reboot
+        语法：reboot
+        e.g.: # reboot
+
+7, 设备管理
+    mount   挂载
+        命令所在路径：/bin/mount
+        语法：mount  -t  文件系统  设备描述文件  挂载点（已经存在空目录）
+        e.g.: mount  -t  iso9660  /dev/cdrom  /mnt/cdrom
+
+    umount  卸载
+        e.g.: umount  /dev/cdrom
+              umount  /mnt/cdrom 		// 强调：退出挂载目录，才能卸载
+
+    df

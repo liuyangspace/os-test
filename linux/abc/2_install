@@ -1,0 +1,57 @@
+
+Linux Install
+
+1, linux分区
+    分区类型：
+        主分区  ：最多只能分四个，可以拿出一个当做扩展分区。
+        扩展分区：扩展分区最多1个，只用来包含逻辑分区。扩展分区加主分区最多有4个。
+        逻辑分区：分区数超过3个后（包括4个），自动出现在扩展分区里的描述分区。
+
+2, 格式化（写入文件系统）
+    Windows：	fat16	    fat32	    ntfs
+    Linux：		ext2		ext3		ext4
+
+3, Linux分区表示（设备名）
+    /dev/hda1
+        hd:IDE硬盘
+        sd:SCSI，SATA硬盘
+        a：第一块硬盘
+        1：第一个分区
+        例：  /dev/sda1	第一块scsi硬盘的第一个主分区
+              /dev/sdc5	第三块scsi硬盘的第一个逻辑分区
+
+4、	挂载
+    windows中：
+        盘符    C:\
+                D:\
+                E:\
+    Linux中：
+        硬盘文件名----------指定挂载目录（盘符）		挂载
+        /dev/sda1-----------/boot
+
+5, linux分区
+    1）	必须分区
+        /		        根分区必须单独分。	        			    C:分区
+        swap分区        交换分区（虚拟内存）,Linux内存2倍,不要大于2GB,一种特殊的文件系统，不是普通文件系统
+    2）推荐分区
+        /boot			启动分区		100MB		/dev/sda1	    D:分区
+        /home 												        E:分区
+        /www													    F:分区
+
+6, 安装完成准备
+    1）关闭防火墙
+        使用Setup工具关闭
+        关闭SELinux		增强安全组件
+            临时：setenforce 0
+            永久：vim /etc/selinux/config      disabled   重启生效
+    2）启动网卡
+        vim /etc/sysconfig/network-scripts/ifcfg-eth0
+        #修改开始#
+        ONBOOT=”yes”
+        #修改结束#
+        重启网络服务
+        service network restart
+    3）远程管理工具
+        Scrt或Xshell、putty等
+    4）远程文件传输工具
+        winscp

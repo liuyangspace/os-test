@@ -1,0 +1,44 @@
+
+
+KeyWord:
+    CLI (CLI,command-line interface,命令行界面)
+    GUI (Graphical User Interface,图形用户界面)
+
+1, 文件命名规则
+	Windows : / \ | ? * < >  CON  以点开头  默认都不能作为文件名使用,大小写不敏感
+	Linux   : 除了/之外，所有的字符都合法,大小写敏感
+
+3, linux命令的格式 (大小写敏感)
+	命令  [选项]  [参数]
+
+4, 命令提示符:
+    #       超级用户
+    $       普通用户
+
+5, 用户家目录
+    /root             管理员
+    /home/用户名      普通用户
+
+6,linux常见目录
+    /		    根目录
+    /bin		命令保存目录（普通用户就可以读取的命令）
+    /boot	    启动目录，启动相关文件
+    /dev		设备文件保存目录
+    /etc		配置文件保存目录
+    /home	    普通用户的家目录
+    /lib		系统库保存目录
+    /mnt		挂载目录
+    /root	    超级用户的家目录
+    /tmp		临时目录	（重启后可清空）
+    /sbin	    命令保存目录（超级用户才能使用的目录）
+    /proc	    记录服务器内存及cpu情况的的动态文件系统
+    /sys		同上
+    /usr		系统软件资源目录
+        /usr/bin/		系统命令（普通用户）
+        /usr/sbin/		系统命令（超级用户）
+        /usr/local/		常用安装软件目录
+    /var		系统相关文档内容
+        /var/log/		系统日志位置
+        /var/spool/mail/		系统默认邮箱位置
+        /var/lib/mysql/		默认安装的mysql的库文件目录
+

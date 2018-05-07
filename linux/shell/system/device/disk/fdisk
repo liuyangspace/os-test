@@ -1,0 +1,47 @@
+
+fdisk
+
+info:划分磁盘分区
+
+e.g.:
+    fdisk /dev/had    //使用/dev/had作为默认的分区设备
+
+-h
+    Usage:
+     fdisk [options] <disk>    change partition table
+     fdisk [options] -l <disk> list partition table(s)
+     fdisk -s <partition>      give partition size(s) in blocks
+
+    Options:
+     -b <size>                 sector size (512, 1024, 2048 or 4096)
+     -c                        switch off DOS-compatible mode
+     -h                        print help
+     -u <size>                 give sizes in sectors instead of cylinders
+     -v                        print version
+     -C <number>               specify the number of cylinders
+     -H <number>               specify the number of heads
+     -S <number>               specify the number of sectors per track
+
+use:
+    fdisk /dev/sda
+        Command (m for help): m
+        Command action
+           a   toggle a bootable flag
+           b   edit bsd disklabel
+           c   toggle the dos compatibility flag
+           d   delete a partition(删除分区)
+           g   create a new empty GPT partition table
+           G   create an IRIX (SGI) partition table
+           l   list known partition types
+           m   print this menu
+           n   add a new partition(添加分区)
+           o   create a new empty DOS partition table
+           p   print the partition table(打印分区表)
+           q   quit without saving changes
+           s   create a new empty Sun disklabel
+           t   change a partition's system id
+           u   change display/entry units
+           v   verify the partition table
+           w   write table to disk and exit(保存分区并退出)
+           x   extra functionality (experts only)
+

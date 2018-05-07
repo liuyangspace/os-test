@@ -1,0 +1,44 @@
+
+df
+
+info:获取硬盘被占用了多少空间，目前还剩下多少空间等信息，它也可以显示所有文件系统对i节点和磁盘块的使用情况。
+
+e.g.:
+    df -ia  // 列出各文件系统的i节点使用情况。
+
+--help
+    用法：df [选项]... [文件]...
+    显示每个文件所在的文件系统的信息，默认是显示所有文件系统。
+
+    长选项必须使用的参数对于短选项时也是必需使用的。
+      -a, --all             include dummy file systems
+      -B, --block-size=SIZE  use SIZE-byte blocks
+          --direct          show statistics for a file instead of mount point
+          --total           produce a grand total
+      -h, --human-readable  print sizes in human readable format (e.g., 1K 234M 2G)
+      -H, --si              likewise, but use powers of 1000 not 1024
+      -i, --inodes		显示inode 信息而非块使用量
+      -k			即--block-size=1K
+      -l, --local		只显示本机的文件系统
+          --no-sync		取得使用量数据前不进行同步动作(默认)
+      -P, --portability	使用POSIX 兼容的输出格式
+          --sync		取得使用量数据前先进行同步动作
+      -t, --type=类型	只显示指定文件系统为指定类型的信息
+      -T, --print-type	显示文件系统类型
+      -x, --exclude-type=类型	只显示文件系统不是指定类型信息
+      -v			(忽略)
+          --help		显示此帮助信息并退出
+          --version		显示版本信息并退出
+
+    所显示的数值是来自 --block-size、DF_BLOCK_SIZE、BLOCK_SIZE
+    及 BLOCKSIZE 环境变量中第一个可用的 SIZE 单位。
+    否则，默认单位是 1024 字节(或是 512，若设定 POSIXLY_CORRECT 的话)。
+
+    SIZE 可以是一个可选的整数，后面跟着以下单位中的一个：
+    KB 1000，K 1024，MB 1000*1000，M 1024*1024，还有 G、T、P、E、Z、Y。
+
+    请向bug-coreutils@gnu.org 报告df 的错误
+    GNU coreutils 项目主页：<http://www.gnu.org/software/coreutils/>
+    GNU 软件一般性帮助：<http://www.gnu.org/gethelp/>
+    请向<http://translationproject.org/team/zh_CN.html> 报告df 的翻译错误
+    要获取完整文档，请运行：info coreutils 'df invocation'

@@ -1,0 +1,5 @@
+
+supervisor
+
+home: http://supervisord.org/
+info: 守护进程管理
