@@ -1,0 +1,5 @@
+
+ntpdate
+
+use:
+    /usr/sbin/ntpdate -u cn.ntp.org.cn && /sbin/hwclock -w &>/dev/null // 同步时间

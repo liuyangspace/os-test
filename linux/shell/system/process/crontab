@@ -1,0 +1,95 @@
+
+crontab
+
+info: 周期性计划任务
+
+use:
+    1, 选项
+        -l	列出当前crontab
+        -e	编辑当前的crontab文件
+        -r	删除当前的crontab      不建议用，直接用-e编辑就好
+    2, 计划任务内容格式：分 时 日 月 周 	命令/脚本
+        e.g.: 0   4   *   *   *  命令             // 每天04:00
+              0   18  *   *   2,5  命令           // 周二和周五18:00
+              */2  12-14  *   *  *   命令         // 中午12点到14点，每两分钟(偶数)
+              1-59/2  12-14  *   *  *   命令      // 中午12点到14点，每两分钟(奇数)
+    3, 特殊匹配符号
+        多个值用	“，”
+        连续的值用	“-”
+        任何匹配	“*”
+        步长		“/n”
+    4, 执行命令
+        保存在: /var/spool/cron
+        开启任务: /etc/rc.d/init.d/crond start
+    5, 权限设置
+        /etc/cron.allow
+        /etc/cron.deny
+-h
+    usage:	crontab [-u user] file
+        crontab [-u user] [ -e | -l | -r ]
+            (default operation is replace, per 1003.2)
+        -e	(edit user's crontab)
+        -l	(list user's crontab)
+        -r	(delete user's crontab)
+        -i	(prompt before deleting user's crontab)
+        -s	(selinux context)
+
+man crontab
+    NAME
+           crontab - maintain crontab files for individual users
+
+    SYNOPSIS
+           crontab [-u user] file
+           crontab [-u user] [-l | -r | -e] [-i] [-s]
+
+    DESCRIPTION
+           Crontab is the program used to install, remove or list the tables used to drive the cron(8) daemon.  Each
+           user can have their own crontab, and though these are files in /var/spool/ , they are not intended to be
+           edited directly. For SELinux in mls mode can be even more crontabs - for each range. For more see selinux(8).
+
+           The cron jobs could be allow or disallow for different users. For classical crontab there exists cron.allow
+           and cron.deny files.  If cron.allow file exists, then you must  be  listed therein  in  order  to  be allowed
+           to use this command.  If the cron.allow file does not exist but the cron.deny file does exist, then you must
+           not be listed in the cron.deny file in order to use this command.  If neither of these files exists, only the
+           super user will be allowed to use this command.  The second option is using PAM authentication, where  you
+           set up users, which could or couldn’t use crontab and also system cron jobs from /etc/cron.d/.
+
+           The temporary directory could be set in enviroment variables. If it’s not set by user than /tmp is used.
+
+    OPTIONS
+           -u     Append  the  name of the user whose crontab is to be tweaked.  If this option is not given, crontab
+                  examines "your" crontab, i.e., the crontab of the person executing the command.  Note that su(8) can
+                  confuse crontab and that if you are running inside of su(8) you should always use the -u option for
+                  safety’s sake.  The first form of  this  command is used to install a new crontab from some named file
+                  or standard input if the pseudo-filename "-" is given.
+
+           -l     The current crontab will be displayed on standard output.
+
+           -r     The current crontab will be removed.
+
+           -e     This option is used to edit the current crontab using the editor specified by the VISUAL or EDITOR
+                  environment variables.  After you exit from the editor, the modified crontab will be installed automatically.
+
+           -i     This option modifies the -r option to prompt the user for a ’y/Y’ response before actually removing the crontab.
+
+           -s     It will append the current SELinux security context string as an MLS_LEVEL setting to the crontab file
+                  before editing / replacement occurs - see the documentation of MLS_LEVEL in crontab(5).
+
+    SEE ALSO
+           crontab(5),cron(8)
+
+    FILES
+           /etc/cron.allow
+           /etc/cron.deny
+
+    STANDARDS
+           The crontab command conforms to IEEE Std1003.2-1992 (‘‘POSIX’’).  This new command syntax differs from previous
+           versions of Vixie Cron, as well as from the classic SVR3 syntax.
+
+    DIAGNOSTICS
+           A fairly informative usage message appears if you run it with a bad command line.
+
+    AUTHOR
+           Paul Vixie <vixie@isc.org>
+
+    Marcela Mašláňová                20 July 2009                       CRONTAB(1)

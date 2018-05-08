@@ -106,4 +106,31 @@ user
     id      查看用户信息,显示用户UID，GID及相关组信息
         语法 : id	用户名
 
+6, 特殊权限
+    SetUID      chmod 4755 filename
+    SetGID      chmod 2755 filename
+    SetBIT      chmod 1777 dirname
+    # 特殊权限位的作用：执行被修改的命令是享有root权限
+
+7, ACL权限
+    ACL (Access Control List) (内核2.6之后默认加入)
+    setfacl 设置权限：
+        setfacl -m <rules> <files>
+        setfacl -m u:用户名:权限 文件名
+        setfacl -m g:组名:权限 文件名
+        setfacl  -R –m u:用户名:权限	目录      //对已存在的文件递归赋予acl权限
+        setfacl –R –m	d:u:用户名:权限	目录      //对未来的新文件继承acl权限
+            -m：设定权限
+            -x：移除指定权限,setfacl –x u:jack /backup
+            -b：移除所有权限
+            -R：递归设置（对于目录）
+        e.g.：setfacl -m u:jack:rx /backup
+              setfacl -m d:u:jack:rwx -R /test   //对于新创建的文件和目录页生效
+    getfacl 查看ACL权限
+        getfacl 文件名（长格式后面多个+）
+
+8, 单用户模式
+    # 在启动界面按任意键进入GRUB目录
+    # 按 e 键进入指定系统菜单，按回车则直接正常启动
+    # 选择 kernel 行，继续按 e 键可进入编辑模式
 

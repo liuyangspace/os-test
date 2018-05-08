@@ -1,0 +1,9 @@
+
+clock
+
+info: 硬件时钟
+
+use:
+    clock --systohc	    // 将系统时间存回硬件时钟内
+    clock --hctosys 	// 系统时间设成和硬件时钟一致
+
