@@ -1,0 +1,57 @@
+
+
+process
+
+info:进程
+
+1, 进程分类
+    standalone	    独立运行
+        如apache、mysql的服务，启动后，进程会一直在系统中，
+        占用CPU和内存资源，等待或处理客户端的请求
+        占用系统资源多，但响应速度快
+    xinetd		    进程托管    （需要独立安装yum	-y	install	xinetd）
+        有些服务，用得很少，没必要独立运行 例如telnet服务
+        ls /etc/xinetd.d 查看这个目录中有很多脚本
+        服务不启动，由xinetd监听这个端口，有客户端访问，则启动进程，等服务完成后，结束进程
+        响应速度慢一点，但减少了系统资源占用
+    atd、crond	    计划任务
+        每隔一分钟，从休眠中醒来一次，所以，计划任务不能精确到秒。
+
+2, 管理
+    列表：#chkconfig  --list
+    查看：runlevel			查询系统当前运行级别
+    配置：vi  /etc/inittab
+            id:3:initdefault:   //定义系统默认运行级别
+
+3, 启动服务
+    3.1,设置开机自启动
+    	vi  /etc/rc.local       ----> /etc/rc.d/rc.local
+    	e.g.: /etc/rc.d/init.d/httpd  start
+    3.2, setup中会调用: ntsysv
+    3.3, RPM包安装的服务:
+        service   服务名   start|stop|restart|status
+        e.g.: service network start
+        配置: /etc/rc.d/init.d/
+    3.4, 源码包安装的服务:
+        绝对路径启动
+            /usr/local/apache2/bin/apachectl  start
+        开机自启动
+            vi /etc/rc.local
+            写入启动命令
+            /usr/local/apache2/bin/apachectl  start
+
+*, 前后台进程操作
+    一个符号：&
+        把进程放到后台运行 在后面加 &
+            e.g.: ping 127.0.0.1 >>/test/ping.result &      // 另一个终端去查看: tail -f /test/ping.result
+    两个操作：
+        挂起	ctrl+z	暂停       	 # ping 127.0.0.1 然后按ctrl+z		此时进程未终止，在后台停止
+        终止	ctrl+c				 # ping 127.0.0.1 然后按ctrl+c		进程终止，释放资源
+    三个命令：
+        查看被挂起或在后台执行的进程
+            jobs
+        进程的恢复
+            fg [序号]		恢复到前右继续运行
+            bg [序号]		恢复到后台继续运行
+            若不加序号，则默认将命令作用于+修饰的进程
+

@@ -1,0 +1,96 @@
+
+vsftp
+
+info: FTP服务器软件
+
+1, about
+    # FTP两个默认端口：
+        20    ——    数据传输
+        21    ——    命令传输
+    # linux常用FTP软件
+    	Wu-FTP:古老、配置复杂
+    	Proftp:功能强大
+    	vsftp:安全、高速、稳定  (推荐)
+    # Windows下常用的FTP服务器软件:
+        IIS具有FTP服务器的功能
+        Serv-U是流行的FTP服务器软件
+
+2, install
+    # 查询
+        rpm -q vsftpd
+    # 安装
+      	yum -y install vsftpd
+      	或
+      	rpm -ivh vsftpd-2.0.1-5.i386.rpm
+    # 配置文件
+      	vi /etc/vsftpd/vsftpd.conf
+        # 匿名用户
+            anonymous_enable=YES			是否允许匿名用户访问  关闭：改为NO
+            anon_upload_enable=YES  		匿名用户允许上传,默认是注释了的
+            anon_mkdir_write_enable=YES 	匿名用户允许创建目录,默认是注释了的
+            anon_max_rate=1000000	追加	匿名用户最大传输速率为100KB/s   (单位:bytes/sec)
+        # 记得修改目录Linux文件系统权限！！！
+    # 启动
+      	service vsftpd start
+      	/etc/rc.d/init.d/vsftpd start
+      	默认启动后，即支持普通用户宿主目录访问及匿名访问
+
+3, connect
+    # 匿名访问
+        用户名: ftp 或 anonymous
+        密码: 空
+        #ftp伪用户宿主目录: /var/ftp
+
+4, command
+    ftp常用命令(windows中连接):
+        ftp 192.168.88.88
+        help        查看帮助
+        ls	        查看所在目录文件信息
+        cd          切换FTP上的目录
+        get         下载单个文件
+        put	        上传
+        bin         切换到使用二进制传输方式
+        ascii	    切换到文本传输方式	（需要开启ftp相关配置）
+        lcd         指定下载到本机的哪个目录
+        prompt	    关闭交互模式
+        mput 	    上传多个(先关闭交互模式，多个文件之间用空格分隔)
+        mget        下载多个
+        bye	        退出
+        #如果已经进入到ftp提示行，可以这样连接到服务器：
+        ftp>open ip地址
+        ftp>user 输入用户名
+
+5, 日志相关
+    日志注意三个地方： 尽量要生成日志
+   	xferlog_enable=YES	是否使用日志
+   	xferlog_std_format=YES  日志使用标准的格式
+   	xferlog_file=/var/log/xferlog  日志文件存放的位置 需要开启
+
+6, 用户访问
+    # 默认普通用户，直接可以登录访问宿主目录,默认可以上传和下载，相关配置项：
+        local_enable=YES
+        write_enable=YES
+        local_umask=022      #创建的目录权限为755
+        local_max_rate=200000   追加用户最大传输速率 为200KB/s
+        # 只要系统中的普通用户，默认都能登录FTP，这样有安全隐患
+    # 限制指定用户不能访问，而其他用户可以访问，相关选项
+      	userlist_enable=YES
+      	userlist_deny=YES
+      	userlist_file=/etc/vsftpd/user_list
+        e.g.：限制指定用户能访问，其他用户不能访问  建议设置此项
+    # 限定目录,用户默认可以切换到别的目录，只要有rx权限，都能切换过去
+            e.g.：ftp> cd /tmp
+            250 Directory successfully changed.
+        chroot  (change root) 让ftp用户把宿主目录当做根目录，这样，就不能切换到别的目录了
+            配置文件中:
+            chroot_local_user=YES
+        还可以控制哪些用户不受此限制，允许切换到别的有权限的目录
+            chroot_list_enable=YES       # 白名单  NO  黑名单
+            chroot_list_file=/etc/vsftpd/chroot_list    # 一个用户一行,列表中的用户，不受chroot限制
+
+7, 其他设置选项
+   	ftpd_banner=Welcome to blah FTP service.	欢迎信息，防止透漏出ftp的软件版本号
+   	idle_session_timeout=600	    空闲10分钟后被挂断
+   	max_clients=50			        服务器总并发连接数
+   	max_per_ip=3			        每个客户机最大连接数
+   	listen_port=10011		        指定一个非标准端口  默认连接端口是21，数据传输是20

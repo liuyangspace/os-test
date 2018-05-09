@@ -1,0 +1,133 @@
+
+who
+
+info: 显示目前登入系统的用户信息。
+
+use:
+    # who -aH
+    NAME       LINE         TIME             IDLE          PID    COMMENT    EXIT
+               system boot  2015-12-20 09:10
+               run-level 3  2015-12-20 09:10
+    root     + tty1         2015-12-20 09:12 00:55        1201
+    名称       线路         登录时间         空闲时间     进程号  备注       退出
+    e.g.
+        who am i    // 当前的用户名
+        who /var/adm/wtmp   // 显示登录、注销、系统启动和系统关闭的历史记录
+
+--help
+    Usage: who [OPTION]... [ FILE | ARG1 ARG2 ]
+    Print information about users who are currently logged in.
+
+      -a, --all         same as -b -d --login -p -r -t -T -u
+      -b, --boot        time of last system boot
+      -d, --dead        print dead processes
+      -H, --heading     print line of column headings
+      -l, --login       print system login processes
+          --lookup      attempt to canonicalize hostnames via DNS
+      -m                only hostname and user associated with stdin
+      -p, --process     print active processes spawned by init
+      -q, --count       all login names and number of users logged on
+      -r, --runlevel    print current runlevel
+      -s, --short       print only name, line, and time (default)
+      -t, --time        print last system clock change
+      -T, -w, --mesg    add user's message status as +, - or ?
+      -u, --users       list users logged in
+          --message     same as -T
+          --writable    same as -T
+          --help     display this help and exit
+          --version  output version information and exit
+
+    If FILE is not specified, use /var/run/utmp.  /var/log/wtmp as FILE is common.
+    If ARG1 ARG2 given, -m presumed: 'am i' or 'mom likes' are usual.
+
+    GNU coreutils online help: <http://www.gnu.org/software/coreutils/>
+    For complete documentation, run: info coreutils 'who invocation'
+
+man who
+    WHO(1)                                                                                          User Commands                                                                                         WHO(1)
+
+    NAME
+           who - show who is logged on
+
+    SYNOPSIS
+           who [OPTION]... [ FILE | ARG1 ARG2 ]
+
+    DESCRIPTION
+           Print information about users who are currently logged in.
+
+           -a, --all
+                  same as -b -d --login -p -r -t -T -u
+
+           -b, --boot
+                  time of last system boot
+
+           -d, --dead
+                  print dead processes
+
+           -H, --heading
+                  print line of column headings
+
+           -l, --login
+                  print system login processes
+
+           --lookup
+                  attempt to canonicalize hostnames via DNS
+
+           -m     only hostname and user associated with stdin
+
+           -p, --process
+                  print active processes spawned by init
+
+           -q, --count
+                  all login names and number of users logged on
+
+           -r, --runlevel
+                  print current runlevel
+
+           -s, --short
+                  print only name, line, and time (default)
+
+           -t, --time
+                  print last system clock change
+
+           -T, -w, --mesg
+                  add user's message status as +, - or ?
+
+           -u, --users
+                  list users logged in
+
+           --message
+                  same as -T
+
+           --writable
+                  same as -T
+
+           --help display this help and exit
+
+           --version
+                  output version information and exit
+
+           If FILE is not specified, use /var/run/utmp.  /var/log/wtmp as FILE is common.  If ARG1 ARG2 given, -m presumed:
+           'am i' or 'mom likes' are usual.
+
+           GNU coreutils online help: <http://www.gnu.org/software/coreutils/> Report who translation bugs to <
+           http://translationproject.org/team/>
+
+    AUTHOR
+           Written by Joseph Arceneaux, David MacKenzie, and Michael Stone.
+
+    COPYRIGHT
+           Copyright © 2013 Free Software Foundation, Inc.  License GPLv3+: GNU GPL version 3 or later <
+           http://gnu.org/licenses/gpl.html>.
+           This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent
+           permitted by law.
+
+    SEE ALSO
+           The full documentation for who is maintained as a Texinfo manual.  If the info and who programs are properly
+           installed at your site, the command
+
+                  info coreutils 'who invocation'
+
+           should give you access to the complete manual.
+
+GNU coreutils 8.22                             November 2015                                                     WHO(1)

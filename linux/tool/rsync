@@ -1,0 +1,39 @@
+
+rsync
+
+info: 远程数据同步工具
+
+use:
+    1, 特点
+        方便的增量备份实现
+        可镜像保存整个目录树和文件系统
+        保存文件权限、时间、软硬链接等
+        文件传输效率高(可压缩传输)
+        可以使用ssh加密通道
+    2，服务
+        服务端模式:
+            # rsync服务是xinetd进程托管方式
+            # 检查是否已安装
+                rpm -q rsync
+            # 启动服务
+                ls /etc/xinetd.d
+                vi /etc/xinetd.d/rsync
+                    修改disable = no  保存退出编辑器
+            # service xinetd restart	重启xinetd托管服务
+                若提示xinetd: 未被识别的服务，则说明/etc/rc.d/init.d下无xinetd包
+                yum -y install xinetd*		#安装xinetd
+                ps -le |grep xinetd 			#查看是否启动成功
+        客户端:
+            # 同步服务器上的一个目录到本机
+                rsync -arHz --progress --delete webadmin@192.168.88.88:/website /backup
+            # 参数说明
+              	-a		保持文件属性
+              	-r		子目录递归处理
+              	-H		保持文件硬链接  如果要备份的文件中没有硬链接，也可以不加-H
+              	-z		备份文件传输时压缩处理
+              	-e ssh		使用ssh加密隧道传输
+              	--progress	在传输时显示传输过程  可以不加
+              	--delete	删除目标备份没有的文件
+            # 如果需要将MyPC中的目录上传到WebServer，本地目录写在前面即可
+
+

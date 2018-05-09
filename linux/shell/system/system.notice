@@ -1,0 +1,11 @@
+
+
+
+
+
+
+系统信息,查看proc文件下信息:
+	ls /proc	            该目录存放的是进程信息，数字是以pid为目录名，信息存放在目录中
+	cat /proc/cpuinfo       查看cpu信息
+	cat /proc/meminfo       内存信息
+	cat /proc/partitions    分区信息

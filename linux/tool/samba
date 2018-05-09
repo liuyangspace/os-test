@@ -1,0 +1,152 @@
+
+Samba
+
+1, about
+    Windows文件共享
+    	Windows主机之间使用SMB/CIFS网络协议实现文件和打印资源的共享
+    	Windows无法与UNIX/Linux主机之间实现资源共享
+    Samba服务器
+    	Samba服务器在UNIX系统中实现了SMB/CIFS协议
+    	通过Samba服务可以实现UNIX/Linux主机与Windows主机之间的资源互访
+    特点:
+    	必须是系统用户，但使用独立密码访问
+    	默认安装samba并添加用户(smbpasswd -a 用户名)，即可访问自己的宿主目录(可读写)。
+
+2, install & start
+    2.1, 查看是否已安装：
+        $ rpm -q samba
+    2.2, 安装
+        yum -y install samba
+    2.3, 启动服务
+        /etc/rc.d/init.d/smb start
+        或
+        service smb start
+    2.4, 查看服务进程
+        ps -le | grep smbd
+        ps -le | grep nmbd
+        # 两个进程: smbd   ---> tcp 139  用户验证和文件共享
+                	nmbd   --->udp 137  138  浏览共享和计算机名解析
+3, user
+    3.1.首先必须是系统用户，添加Linux系统用户
+    	useradd 用户名			#添加用户
+    	passwd 用户名			#设置密码
+    3.2.然后设置samba的密码（samba自带的用户管理工具）
+    	smbpasswd -a 用户名		#加用户
+    	smbpasswd 用户名		#改smb密码
+    	root可以使用管理命令（系统自动的samba用户数据库管理工具）
+    	pdbedit -a username：新建Samba账户。
+    	pdbedit -x username：删除Samba账户。
+    	pdbedit -L：列出Samba用户列表，读取/etc/samba/passdb.tdb数据库文件。
+    	pdbedit -Lv：列出Samba用户列表的详细信息。
+        # 为了安全，不要把root设为samba用户
+
+4, connect to samba
+    4.1, 重启服务:
+        service smb restart
+    4.2, Windows中如何连接：
+        1) 运行 连接
+            \\服务器地址
+            \\192.168.88.88
+            可以映射网络驱动器
+        1) 命令行 连接
+            net use
+            net use * /del /y
+            net use \\192.168.88.88 "password" /user:your_user
+    4.3, 服务状态
+        # 查看有哪些客户端连接
+            smbstatus
+        # 查看日志
+            cat /var/log/samba
+    4.4, SELinux
+    	# 允许访问
+    	    setsebool -P samba_enable_home_dirs on
+
+5, 配置文件
+    5.1, 查找配置文件
+        rpm -ql samba-common | grep smb.conf
+    5.2, 配置文件注释：
+        [global]	全局环境选项
+        	workgroup	工作组或域
+        	server string	描述信息
+        	security	安全模式，有如下选项
+        		share	不验证权限，直接共享
+        		user	缺省，推荐，由Linux Samba服务器做验证
+        		server	第三方主机验证
+        		domain	第三方主机验证(必须是Windows 域控制器)
+        	hosts allow	哪些主机可以访问(如果没有配置，全部主机都可以)
+        			如果是ip直接写上，如果是ip段只写网段部份，多个用空格分隔 如: 192.168.1. 192.168.2.
+        			哪些主机不允许访问，hosts deny 一般不和hosts allow同时使用
+        	log file	日志文件(最好启用日志)
+
+        [homes]		只要有这个配置段，用户默认就可以通过自己的用户名，访问自己的宿主目录
+        	comment		描述
+        	browseable=no	无权限访问的目录，不显示出来
+        	writable=yes	可写
+
+        [自定义的共享1]
+        [自定义的共享2]
+
+6, samba实例
+    需求：配置/software目录的共享,允许user1 user2两个用户完全访问
+
+    创建目录
+    	mkdir /software
+
+    添加用户
+    	useradd user1
+    	passwd user1
+    	useradd user2
+    	passwd user2
+    添加samba密码
+    	pdbedit -a user1
+    	pdbedit -a user2
+
+    编辑配置文件
+    	vi /etc/samba/smb.conf
+    	建议写在配置文件尾
+    	[software]			共享名，不能有特殊符号，一般是字母或数字组成
+    	path = /software		共享目录,只能是一个目录
+    	valid users = user1 user2	多个用空格分开。如果没配置此项，所有用户都可以访问
+    	writable = yes			 写权限 yes  no
+
+    Samba服务器配置检测命令
+    	testparm
+    	如果配置文件写错，例valid users=user1 写成了valid user=user1 将提示
+
+    重启服务
+    	/etc/rc.d/init.d/smb restart
+
+    设置目录权限
+
+    	直接改为777，但这样不安全
+    	chmod -R 777 /software
+
+    	创建一个用户组，改变目录所属组，对组授权，然后从新连接就可以了
+    	groupadd softadmin
+    	usermod -aG softadmin user1
+    	usermod -aG softadmin user2
+    	chgrp softadmin /software
+    	chmod g+w /software
+
+    	推荐用acl
+    	setfacl -R  -m u:user1:rwx /software	#让user1有rwx权限 (已有目录或文件)
+    	setfacl -R  -m d:u:user1:rwx /software	#让以后新创建的文件或目录，user1也有rwx权限
+    	setfacl -R  -m u:user2:rwx /software
+    	setfacl -R  -m d:u:user2:rwx /software
+
+    windows 下，重新连接
+    	net use * /del /y
+    	net use \\192.168.88.88 "password" /user:your_user
+
+    提供一个共享目录，所有有户都能使用，却不能删除别人的文件
+        [test]
+        path = /test
+        wrieable=yes
+        然后，设置目录为  chmod 1777 /test
+
+7, 扩展
+    Linux之间使用samba
+    问题：如何在linux中使用SAMBA服务器的共享目录？
+    解答：mount  //192.168.88.88/software  /mnt/software  -o username=your_user
+    >输入密码
+    Linux 访问 windows
